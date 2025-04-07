@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="reports-page">
+    <h1>Library Reports</h1>
+    
+    <div class="reports-container">
+        <div class="report-card">
+            <h2>Books by Genre</h2>
+            <div class="chart-container">
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Genre</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for genre in books_by_genre %}
+                        <tr>
+                            <td>{{ genre.genre }}</td>
+                            <td>{{ genre.count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div class="report-card">
+            <h2>Overdue Books</h2>
+            <div class="chart-container">
+                {% if overdue_books %}
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Book Title</th>
+                            <th>Member Name</th>
+                            <th>Due Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in overdue_books %}
+                        <tr>
+                            <td>{{ book.title }}</td>
+                            <td>{{ book.name }}</td>
+                            <td>{{ book.due_date }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="no-data">
+                    <i class="fas fa-check-circle"></i>
+                    <p>No overdue books at the moment.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        
+        <div class="report-card full-width">
+            <h2>Most Popular Books</h2>
+            <div class="chart-container">
+                {% if popular_books %}
+                <table class="report-table">
+                    <thead>
+                        <tr>
+                            <th>Book Title</th>
+                            <th>Borrow Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for book in popular_books %}
+                        <tr>
+                            <td>{{ book.title }}</td>
+                            <td>{{ book.borrow_count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <div class="no-data">
+                    <p>No borrowing data available yet.</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

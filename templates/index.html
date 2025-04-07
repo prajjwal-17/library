@@ -1,0 +1,103 @@
+<!-- index.html -->
+<!-- index.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard">
+    <h1>Library Dashboard</h1>
+    
+    <div class="stats-container">
+        <div class="stat-card">
+            <div class="stat-icon blue">
+                <i class="fas fa-book"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Total Books</h3>
+                <p class="stat-number">10</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon green">
+                <i class="fas fa-users"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Total Members</h3>
+                <p class="stat-number">5</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon orange">
+                <i class="fas fa-exchange-alt"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Active Borrows</h3>
+                <p class="stat-number">2</p>
+            </div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-icon red">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <div class="stat-info">
+                <h3>Overdue Books</h3>
+                <p class="stat-number">0</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="quick-actions">
+        <h2>Quick Actions</h2>
+        <div class="action-buttons">
+            <a href="{{ url_for('books') }}" class="action-btn">
+                <i class="fas fa-plus"></i> Add New Book
+            </a>
+            <a href="{{ url_for('members') }}" class="action-btn">
+                <i class="fas fa-user-plus"></i> Register Member
+            </a>
+            <a href="{{ url_for('transactions') }}" class="action-btn">
+                <i class="fas fa-book"></i> Borrow Book
+            </a>
+            <a href="{{ url_for('transactions') }}" class="action-btn">
+                <i class="fas fa-undo"></i> Return Book
+            </a>
+        </div>
+    </div>
+    
+    <div class="recent-activity">
+        <h2>Recent Activity</h2>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Action</th>
+                    <th>Book</th>
+                    <th>Member</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="badge borrowed">Borrowed</span></td>
+                    <td>The Hobbit</td>
+                    <td>David Wilson</td>
+                    <td>2023-06-20</td>
+                </tr>
+                <tr>
+                    <td><span class="badge returned">Returned</span></td>
+                    <td>Pride and Prejudice</td>
+                    <td>Emily Davis</td>
+                    <td>2023-06-28</td>
+                </tr>
+                <tr>
+                    <td><span class="badge borrowed">Borrowed</span></td>
+                    <td>The Great Gatsby</td>
+                    <td>Michael Brown</td>
+                    <td>2023-06-10</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

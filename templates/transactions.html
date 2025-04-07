@@ -1,0 +1,116 @@
+
+{% extends "base.html" %}
+<!-- transactions.html -->
+{% block content %}
+<div class="transactions-page">
+    <div class="page-header">
+        <h1>Transaction Management</h1>
+        <div class="header-actions">
+            <button class="primary-btn" id="showBorrowModal">
+                <i class="fas fa-book"></i> Borrow Book
+            </button>
+        </div>
+    </div>
+    
+    <div class="transaction-filters">
+        <div class="filter-section">
+            <select id="statusFilter">
+                <option value="">All Status</option>
+                <option value="Borrowed">Borrowed</option>
+                <option value="Returned">Returned</option>
+                <option value="Overdue">Overdue</option>
+            </select>
+            <input type="date" id="dateFilter" placeholder="Filter by date">
+        </div>
+    </div>
+    
+    <div class="transactions-container">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Book</th>
+                    <th>Member</th>
+                    <th>Borrow Date</th>
+                    <th>Due Date</th>
+                    <th>Return Date</th>
+                    <th>Status</th>
+                    <th>Fine</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for transaction in transactions %}
+                <tr>
+                    <td>{{ transaction.transaction_id }}</td>
+                    <td>{{ transaction.book_title }}</td>
+                    <td>{{ transaction.member_name }}</td>
+                    <td>{{ transaction.borrow_date }}</td>
+                    <td>{{ transaction.due_date }}</td>
+                    <td>{{ transaction.return_date if transaction.return_date else '-' }}</td>
+                    <td>
+                        <span class="badge {{ transaction.status.lower() }}">
+                            {{ transaction.status }}
+                        </span>
+                    </td>
+                    <td>€{{ "%.2f"|format(transaction.fine if transaction.fine else 0) }}</td>
+                    <td class="actions">
+                        {% if transaction.status == 'Borrowed' %}
+                        <form action="{{ url_for('return_book', transaction_id=transaction.transaction_id) }}" method="POST">
+                            <button type="submit" class="icon-btn return-btn" title="Return Book">
+                                <i class="fas fa-undo"></i>
+                            </button>
+                        </form>
+                        {% else %}
+                        <button class="icon-btn view-btn" data-id="{{ transaction.transaction_id }}">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- Borrow Book Modal -->
+    <div id="borrowBookModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Borrow Book</h2>
+            
+            <form action="{{ url_for('borrow_book') }}" method="POST">
+                <div class="form-group">
+                    <label for="book_id">Book</label>
+                    <select id="book_id" name="book_id" required>
+                        <option value="">-- Select Book --</option>
+                        {% for book in books %}
+                        <option value="{{ book.book_id }}">{{ book.title }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="member_id">Member</label>
+                    <select id="member_id" name="member_id" required>
+                        <option value="">-- Select Member --</option>
+                        {% for member in members %}
+                        <option value="{{ member.member_id }}">{{ member.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="due_date">Due Date</label>
+                    <input type="date" id="due_date" name="due_date" required>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="secondary-btn" id="cancelBorrow">Cancel</button>
+                    <button type="submit" class="primary-btn">Borrow Book</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
